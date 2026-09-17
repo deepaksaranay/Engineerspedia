@@ -25,14 +25,28 @@
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[c]));
 
-  /** Depth-aware root prefix so pages in subfolders still resolve assets. */
+  /**
+   * Root prefix so every page — at any folder depth, on any host, at any
+   * subpath (domain root on Netlify, /RepoName/ on GitHub Pages project
+   * pages, a custom sub-path, etc.) — resolves assets and data/site.json
+   * correctly. Anchored to this very <script> tag's own resolved URL,
+   * which the browser has already made absolute, rather than guessing
+   * from the page's path depth (which breaks under a subpath).
+   */
   const ROOT = (() => {
-    const depth = window.location.pathname
-      .replace(/\/[^/]*$/, '/')            // strip filename
-      .split('/').filter(Boolean).length;
-    // /articles/<slug> rewrites to /article.html but reports depth 1 — the
-    // <base>-free approach below handles both by counting real directories.
-    return depth === 0 ? '' : '../'.repeat(depth);
+    try {
+      const script = document.currentScript ||
+        Array.from(document.scripts).find((s) => /assets\/app\.js(\?|#|$)/.test(s.src));
+      const i = script.src.indexOf('assets/');
+      if (i === -1) throw new Error('app.js not found in a recognizable assets/ path');
+      return script.src.slice(0, i);
+    } catch (_) {
+      // Fallback: old depth-based guess (works at domain root).
+      const depth = window.location.pathname
+        .replace(/\/[^/]*$/, '/')
+        .split('/').filter(Boolean).length;
+      return depth === 0 ? '' : '../'.repeat(depth);
+    }
   })();
 
   const asset = (p) => {
@@ -344,7 +358,7 @@
       });
 
       const label = activeCat === 'all' ? '' : ` in ${category(activeCat).name}`;
-      countEl.textContent = `${list.length} article${list.length === 1 ? '' : 's'}${label}${q ? ` matching “${query.trim()}”` : ''}`;
+      countEl.textContent = `${list.length} article${list.length === 1 ? '' : 's'}${label}${q ? ` matching "${query.trim()}"` : ''}`;
 
       results.innerHTML = list.length
         ? cardGrid(list)
@@ -420,7 +434,7 @@
     const main = $('[data-slot="main"]');
     const meta = DATA.articles.find((a) => a.slug === slug);
 
-    if (!meta) return notFound(main, 'That article doesn’t exist (or has moved).');
+    if (!meta) return notFound(main, 'That article doesn't exist (or has moved).');
 
     let body;
     try {
@@ -571,7 +585,7 @@ ${related.length ? `
     else if (page === 'articles') renderArticlesPage();
     else if (page === 'categories') renderCategoriesPage();
     else if (page === 'article') await renderArticlePage();
-    else if (page === '404') notFound($('[data-slot="main"]'), 'We couldn’t find that page.');
+    else if (page === '404') notFound($('[data-slot="main"]'), 'We couldn't find that page.');
 
     decorateStaticPage();
     wireForms();
