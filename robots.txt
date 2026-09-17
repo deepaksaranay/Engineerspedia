@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://engineerspedia.netlify.app/sitemap.xml

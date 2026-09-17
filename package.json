@@ -1,0 +1,15 @@
+{
+  "name": "engineerspedia",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Engineerspedia — a JSON-driven static site. Engineering knowledge, without the jargon.",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "check": "node tools/build.mjs",
+    "build": "node tools/build.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

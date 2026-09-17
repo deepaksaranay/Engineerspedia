@@ -1,0 +1,40 @@
+<p>Ask five software engineers whether an application should be a monolith or a set of microservices, and you'll likely get five confident, contradictory answers. That's because "software architecture" isn't really about finding the objectively correct structure — it's about picking trade-offs that match your team, your problem, and your stage of growth.</p>
+
+  <h2>The monolith: one codebase, one deployment</h2>
+  <p>A monolithic architecture keeps all of an application's functionality — the user interface, business logic, and data access — in a single codebase that's built and deployed as one unit. It's often treated as a dirty word, but it's usually the right starting point:</p>
+  <ul>
+    <li>Simpler to develop, test, and debug, since everything runs in one process with no network calls between components.</li>
+    <li>Easier to reason about for a small team, because there's one codebase to understand rather than a constellation of services.</li>
+    <li>The main downsides show up at scale: the whole application has to be redeployed for any change, and a bug in one part can potentially take down the whole system.</li>
+  </ul>
+
+  <h2>Microservices: many small, independent services</h2>
+  <p>A microservices architecture splits an application into a collection of small, independently deployable services, each typically owning a specific piece of business functionality (say, "payments" or "user authentication") and communicating over the network, often via HTTP or a message queue.</p>
+  <ul>
+    <li>Teams can develop, deploy, and scale each service independently — the payments team doesn't need to coordinate a release with the recommendations team.</li>
+    <li>A failure in one service can, if designed carefully, be contained instead of crashing everything.</li>
+    <li>The cost is real operational complexity: network calls are slower and less reliable than in-process function calls, debugging a request across a dozen services is harder, and you now need infrastructure for service discovery, monitoring, and deployment that a monolith never required.</li>
+  </ul>
+
+  <div class="callout">
+    <strong>A common trap:</strong> adopting microservices before a team is large enough to need them. Splitting a small team's codebase into a dozen services often just means everyone pays the operational overhead without getting the organizational benefit, since there's no team boundary the services actually correspond to.
+  </div>
+
+  <h2>Layered architecture: organizing by responsibility</h2>
+  <p>Independent of monolith-versus-microservices, most systems are also organized into layers — commonly presentation (UI), business logic, and data access — each only allowed to talk to the layer directly below it. This keeps concerns separated: the business logic doesn't need to know whether data is coming from a database or an API, and the UI doesn't need to know how business rules are implemented. This pattern shows up inside both monoliths and individual microservices.</p>
+
+  <h2>Event-driven architecture: reacting instead of asking</h2>
+  <p>Instead of one service directly calling another and waiting for a response, components emit <strong>events</strong> ("order placed," "payment failed") that other components subscribe to and react to independently. This decouples services from each other — the order service doesn't need to know which other services care that an order was placed, it just announces the fact. It's especially useful for workflows with many independent side effects (send a confirmation email, update inventory, notify a warehouse) but adds its own complexity: tracing what happened, and in what order, across a system reacting to events is harder than following a straight-line function call.</p>
+
+  <h2>How to actually choose</h2>
+  <p>A useful framing: architecture decisions are rarely about which pattern is "better" in the abstract — they're about which set of problems you'd rather have.</p>
+  <ol>
+    <li><strong>Team size and structure.</strong> Conway's Law observes that systems tend to mirror the communication structure of the organizations that build them — a single team usually builds a more monolithic system naturally, while independent teams tend toward independent services.</li>
+    <li><strong>Rate of change.</strong> Parts of a system that change often and independently benefit more from being separated out than parts that rarely change together.</li>
+    <li><strong>Operational maturity.</strong> Microservices assume you already have solid monitoring, deployment automation, and on-call practices. Adopting them before that infrastructure exists tends to multiply pain rather than reduce it.</li>
+  </ol>
+
+  <blockquote>Most successful systems don't start as microservices — they start as a well-organized monolith and get split apart later, at the specific seams where real organizational or scaling pressure shows up.</blockquote>
+
+  <h2>The takeaway</h2>
+  <p>There's no universally "correct" architecture — only trade-offs that fit a given team and problem better or worse at a given point in time. The skill worth building isn't memorizing pattern names; it's getting comfortable naming the trade-offs a given choice implies, and revisiting that choice as the situation changes.</p>

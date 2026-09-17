@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Engineerspedia</title>
+  <link>https://engineerspedia.netlify.app</link>
+  <description>Engineering knowledge, without the jargon. Plain-language explainers spanning software, mechanical, civil, electrical, chemical and aerospace engineering.</description>
+  <language>en</language>
+  <lastBuildDate>Sat, 12 Sep 2026 09:00:00 GMT</lastBuildDate>
+  <atom:link href="https://engineerspedia.netlify.app/feed.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>How Wings Actually Generate Lift</title>
+    <link>https://engineerspedia.netlify.app/article.html?slug=how-wings-generate-lift</link>
+    <guid isPermaLink="false">how-wings-generate-lift</guid>
+    <pubDate>Sat, 12 Sep 2026 09:00:00 GMT</pubDate>
+    <category>Aerospace</category>
+    <description>Why the &apos;equal transit time&apos; explanation of lift is wrong, and how circulation, angle of attack and Newton&apos;s third law actually keep an aircraft in the air.</description>
+  </item>
+  <item>
+    <title>Big-O Notation, Explained Without the Math Panic</title>
+    <link>https://engineerspedia.netlify.app/article.html?slug=big-o-notation</link>
+    <guid isPermaLink="false">big-o-notation</guid>
+    <pubDate>Wed, 12 Aug 2026 09:00:00 GMT</pubDate>
+    <category>Software &amp; CS</category>
+    <description>A plain-language walkthrough of Big-O notation: what it measures, why it matters, and how to eyeball an algorithm&apos;s complexity.</description>
+  </item>
+  <item>
+    <title>Software Architecture Patterns, at a Glance</title>
+    <link>https://engineerspedia.netlify.app/article.html?slug=software-architecture-patterns</link>
+    <guid isPermaLink="false">software-architecture-patterns</guid>
+    <pubDate>Wed, 05 Aug 2026 09:00:00 GMT</pubDate>
+    <category>Software &amp; CS</category>
+    <description>Monoliths, microservices, and everything between — a plain-language guide to picking a shape for your system.</description>
+  </item>
+  <item>
+    <title>Why Buildings Don&apos;t Fall Down: Load Paths 101</title>
+    <link>https://engineerspedia.netlify.app/article.html?slug=load-bearing-structures</link>
+    <guid isPermaLink="false">load-bearing-structures</guid>
+    <pubDate>Thu, 30 Jul 2026 09:00:00 GMT</pubDate>
+    <category>Civil &amp; Structural</category>
+    <description>A plain-language tour of how structural loads travel from a roof to the ground, and what &apos;load-bearing&apos; really means.</description>
+  </item>
+  <item>
+    <title>Circuit Design Basics: Volts, Amps, and Ohm&apos;s Law</title>
+    <link>https://engineerspedia.netlify.app/article.html?slug=circuit-design-basics</link>
+    <guid isPermaLink="false">circuit-design-basics</guid>
+    <pubDate>Sat, 18 Jul 2026 09:00:00 GMT</pubDate>
+    <category>Electrical</category>
+    <description>The three numbers every circuit boils down to, and how to reason about voltage, current, and resistance with confidence.</description>
+  </item>
+  <item>
+    <title>Thermodynamics for People in a Hurry</title>
+    <link>https://engineerspedia.netlify.app/article.html?slug=thermodynamics-intro</link>
+    <guid isPermaLink="false">thermodynamics-intro</guid>
+    <pubDate>Sun, 05 Jul 2026 09:00:00 GMT</pubDate>
+    <category>Mechanical</category>
+    <description>The four laws of thermodynamics, explained with everyday examples instead of textbook notation.</description>
+  </item>
+  <item>
+    <title>How a Chemical Plant Actually Works</title>
+    <link>https://engineerspedia.netlify.app/article.html?slug=chemical-process-basics</link>
+    <guid isPermaLink="false">chemical-process-basics</guid>
+    <pubDate>Mon, 22 Jun 2026 09:00:00 GMT</pubDate>
+    <category>Chemical</category>
+    <description>Following a raw material from tanker truck to finished product, one unit operation at a time.</description>
+  </item>
+</channel>
+</rss>

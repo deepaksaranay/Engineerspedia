@@ -1,0 +1,64 @@
+<p>If you've spent any time around software engineers, you've heard someone say a piece of code is "O(n)" or worse, groan that something is "O(n²)." Big-O notation sounds like math homework, but it's really just a shorthand for a very practical question: <strong>if the input gets bigger, how much slower does this get?</strong></p>
+
+  <p>That's it. That's the whole idea. Everything else is detail.</p>
+
+  <h2>The problem Big-O actually solves</h2>
+  <p>Imagine you write a function that searches for a name in a list of contacts. It works fine when you test it with 20 contacts. Then a user imports 200,000 contacts, and suddenly the app freezes. Big-O is the tool engineers use to predict that kind of blow-up <em>before</em> it happens in production, by describing how an algorithm's running time (or memory use) grows as the input size — usually written as <code>n</code> — grows.</p>
+
+  <p>Crucially, Big-O doesn't care about exact seconds or milliseconds. It cares about the <em>shape</em> of the growth curve. Two algorithms can both be "O(n)" even if one is consistently twice as fast as the other — what matters is that doubling the input roughly doubles the work for both.</p>
+
+  <h2>The complexities you'll actually run into</h2>
+  <p>In practice, almost every algorithm you'll encounter falls into a handful of buckets, from best to worst:</p>
+
+  <ul>
+    <li><strong>O(1) — constant time.</strong> The work doesn't depend on input size at all. Looking up a value in a hash map by its key is the classic example: whether the map has 10 entries or 10 million, the lookup takes roughly the same time.</li>
+    <li><strong>O(log n) — logarithmic time.</strong> The work grows, but very slowly, because each step eliminates a large chunk of the remaining problem. Binary search is the textbook example — every comparison cuts the search space in half.</li>
+    <li><strong>O(n) — linear time.</strong> Double the input, double the work. Scanning through a list once, item by item, is O(n).</li>
+    <li><strong>O(n log n) — "linearithmic" time.</strong> Common in efficient sorting algorithms like merge sort and quicksort. It's a bit worse than linear, but far better than what's next.</li>
+    <li><strong>O(n²) — quadratic time.</strong> Common when you compare every item to every other item, like a naive duplicate-finder with a nested loop. Double the input, and the work goes up <em>four</em>-fold.</li>
+    <li><strong>O(2ⁿ) and worse — exponential time.</strong> Work roughly doubles with every additional input item. This shows up in brute-force solutions to problems like the traveling salesman, and it gets unusable fast — 30 items can already be too many.</li>
+  </ul>
+
+  <div class="callout">
+    <strong>Quick gut check:</strong> if you see a loop, that's usually at least O(n). If you see a loop nested inside another loop over the same data, that's usually O(n²). If you see the input getting cut in half every step, that's usually O(log n).
+  </div>
+
+  <h2>A concrete example</h2>
+  <p>Say you want to check whether a list contains any duplicate values. A naive approach compares every element to every other element:</p>
+
+  <pre><code>function hasDuplicates(items) {
+  for (let i = 0; i < items.length; i++) {
+    for (let j = i + 1; j < items.length; j++) {
+      if (items[i] === items[j]) return true;
+    }
+  }
+  return false;
+}
+// O(n²) — a nested loop over the same list</code></pre>
+
+  <p>A smarter approach uses a set to track what you've already seen, trading a bit of memory for a lot of speed:</p>
+
+  <pre><code>function hasDuplicates(items) {
+  const seen = new Set();
+  for (const item of items) {
+    if (seen.has(item)) return true;
+    seen.add(item);
+  }
+  return false;
+}
+// O(n) — one pass through the list</code></pre>
+
+  <p>Both versions return the correct answer. But for a list of one million items, the O(n²) version could mean roughly a trillion comparisons, while the O(n) version means roughly a million. That difference is the entire reason Big-O exists as a concept — it lets you predict this gap without running the code on a million-item list first.</p>
+
+  <h2>What Big-O deliberately ignores</h2>
+  <p>Big-O strips away details on purpose, which trips people up at first:</p>
+  <ul>
+    <li><strong>Constants don't matter.</strong> An algorithm that does <code>3n</code> operations and one that does <code>n</code> operations are both just "O(n)" — the constant factor gets dropped because it doesn't change the shape of the curve as <code>n</code> grows large.</li>
+    <li><strong>Only the largest term matters.</strong> An algorithm that does <code>n² + n</code> operations is O(n²), because for large <code>n</code>, the <code>n²</code> term completely dwarfs the <code>n</code> term.</li>
+    <li><strong>It describes worst case, usually.</strong> Unless stated otherwise ("average case," "best case"), Big-O typically describes the worst-case scenario — the input that makes the algorithm work hardest.</li>
+  </ul>
+
+  <h2>Why this matters even if you're not optimizing algorithms daily</h2>
+  <p>Most day-to-day engineering work doesn't involve inventing new algorithms — it involves choosing between ones that already exist, in a standard library, a database query planner, or a framework. Understanding Big-O is less about writing clever code and more about developing an instinct for questions like: "will this approach hold up when the data grows 100x?" That instinct is what separates code that works in a demo from code that survives contact with real users.</p>
+
+  <blockquote>The goal isn't to calculate exact complexity for everything you write — it's to notice, quickly, when you've accidentally written something that won't scale.</blockquote>

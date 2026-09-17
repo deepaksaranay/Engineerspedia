@@ -1,0 +1,74 @@
+<p>Almost everyone has heard the same explanation of how a wing works: the top surface is curved, so air travelling over the top has farther to go, so it must speed up to meet the air coming under the bottom, and faster air has lower pressure, so the wing gets sucked upward. It is tidy, it is memorable, and it is <strong>wrong</strong> — wrong in a way that matters, because it can't explain why a paper aeroplane flies, or why an aerobatic pilot can hold a stable inverted pass down a runway.</p>
+
+<p>The real explanation is not much harder, and it makes far better predictions.</p>
+
+<h2>Why the "equal transit time" story fails</h2>
+<p>The story assumes that two parcels of air splitting at the leading edge must rejoin at the trailing edge. There is no physical law that requires this, and experiments with smoke tunnels show it plainly isn't true: air passing over the top of a lifting wing reaches the trailing edge <em>sooner</em> than the air underneath, not at the same moment.</p>
+
+<p>Worse, the story makes predictions that reality contradicts:</p>
+<ul>
+  <li><strong>Flat wings shouldn't fly.</strong> A flat plate has identical path lengths top and bottom, yet tilt one into an airflow and it generates lift quite happily. This is why a sheet of card thrown at a slight angle glides.</li>
+  <li><strong>Inverted flight should be impossible.</strong> Flip a cambered wing upside down and the "longer path" is now on the bottom, which should push the aircraft into the ground. Aerobatic aircraft fly inverted routinely.</li>
+  <li><strong>Lift shouldn't depend on angle.</strong> Path lengths don't change when a pilot pitches the nose up, but lift changes dramatically — it's the single most important control the pilot has.</li>
+</ul>
+
+<h2>What is actually happening: the wing throws air downward</h2>
+<p>Here is the version that survives contact with evidence. A wing moving through air <strong>deflects that air downward</strong>. Newton's third law does the rest: if the wing pushes a continuous stream of air down, the air pushes the wing up by exactly the same amount. That upward push is lift.</p>
+
+<p>You can see the deflected air — pilots call it <strong>downwash</strong> — in the wake behind any aircraft. It is the same reason a helicopter hovers, and the same reason you feel a shove if you hold your hand flat out of a moving car window and tilt it. The wing is, in the most literal sense, a machine for throwing air downward.</p>
+
+<div class="callout">
+  <strong>The quantity that matters:</strong> lift is equal to the rate at which the wing changes the air's downward momentum. Throw more air down, or throw the same air down faster, and you get more lift. Everything else in this article is a detail of <em>how</em> a wing does that efficiently.
+</div>
+
+<h2>So is the pressure explanation wrong too?</h2>
+<p>No — and this is the part that confuses people. The pressure explanation and the momentum explanation are not rival theories. They are two descriptions of one event, and both are correct.</p>
+
+<p>The air above a lifting wing genuinely is at lower pressure, and the air below genuinely is at higher pressure. Add up (integrate) that pressure difference over the whole wing surface, and you get the lift force. Track the air the wing pushed downward instead, and you get the same number. They have to agree, because the pressure difference is <em>what does the pushing</em>.</p>
+
+<p>What the popular story gets wrong isn't Bernoulli's principle. It's the reason it gives for why the air speeds up in the first place.</p>
+
+<h3>Why the air over the top really does speed up</h3>
+<p>Air is a fluid, and it resists being torn apart or piled up. As it approaches a wing tilted into the flow, the streamlines must curve around it. Curving a flow requires a pressure gradient — pressure must be lower on the inside of the curve to bend the air around it — and where pressure is lower, the flow accelerates.</p>
+
+<p>There is one more ingredient, and it's the reason wings have a sharp trailing edge. Air cannot whip around a sharp edge from the underside to the top; it separates instead. This constraint, known as the <strong>Kutta condition</strong>, forces the flow to leave the wing cleanly at the trailing edge, which in turn sets up a net circulation of air around the wing — faster over the top, slower underneath. Circulation is the formal object that aerodynamicists actually compute, and it, not path length, is what determines how much lift a shape produces.</p>
+
+<h2>The lift equation, and what each term buys you</h2>
+<p>All of the above is packed into one equation that every aerospace engineer knows by heart:</p>
+
+<pre><code>L = ½ × ρ × v² × S × C_L
+
+L    lift force
+ρ    air density
+v    airspeed
+S    wing area
+C_L  lift coefficient (shape + angle of attack)</code></pre>
+
+<p>Four of those terms are worth dwelling on:</p>
+<ul>
+  <li><strong>Airspeed is squared.</strong> Double your speed and you get four times the lift. This is why takeoff is fundamentally about accelerating to a speed where the wing can carry the aircraft, and why a slow approach leaves so little margin.</li>
+  <li><strong>Density matters, and it falls with altitude and heat.</strong> A runway at 2,000 m elevation on a hot afternoon has meaningfully thinner air than one at sea level in winter, so the same aircraft needs a longer ground roll and a higher true airspeed to lift off. Pilots call this density altitude, and underestimating it has killed people.</li>
+  <li><strong>Wing area is a design choice.</strong> Gliders use long, large wings to generate lift at low speed; fighters use small ones to cut drag at high speed. Each is optimising for a different part of the equation.</li>
+  <li><strong>C<sub>L</sub> is the one the pilot controls in flight</strong>, mostly through angle of attack.</li>
+</ul>
+
+<h2>Angle of attack: the real throttle for lift</h2>
+<p><strong>Angle of attack</strong> is the angle between the wing and the oncoming air — note that this is not the same as the aircraft's pitch relative to the ground, and confusing the two is a classic beginner error. Increase the angle of attack and the wing deflects more air downward, so C<sub>L</sub> rises and lift rises with it, roughly linearly.</p>
+
+<p>Roughly linearly, that is, until it doesn't. Past a critical angle — often somewhere near 15° for a conventional wing — the airflow can no longer follow the upper surface. It separates into a turbulent wake, the neat circulation collapses, and lift drops sharply while drag spikes. This is a <strong>stall</strong>.</p>
+
+<div class="callout">
+  <strong>The most useful thing to know about stalls:</strong> a wing stalls at an angle, not at a speed. An aircraft can stall at any airspeed and any attitude — in a steep turn, in a pull-up, even pointed straight down — if the critical angle of attack is exceeded. "Stall speed" is just the speed at which level flight happens to require that angle.
+</div>
+
+<h2>What flaps are actually for</h2>
+<p>An aircraft has contradictory requirements: it wants a small, efficient wing for cruise, and a large, high-lift wing for landing at a survivable speed. Flaps and slats resolve the conflict by changing the wing's shape on demand — increasing camber, and on some designs increasing area as well — which raises the maximum achievable C<sub>L</sub>.</p>
+
+<p>The result is that the aircraft can generate the lift it needs at a much lower <code>v</code>, which is the whole point: touching down at 140 knots instead of 200 knots is the difference between a routine landing and needing a runway nobody has built.</p>
+
+<blockquote>A wing doesn't hold an aircraft up by being cleverly shaped. It holds the aircraft up by continuously throwing air downward — and the shape is simply the most efficient way anyone has found to do that without wasting energy as drag.</blockquote>
+
+<h2>Why this way of thinking is worth borrowing</h2>
+<p>The lesson here is broader than aerodynamics. The equal-transit-time story survived for decades in textbooks because it was intuitive, easy to draw, and produced a correct-sounding conclusion — lift exists — from faulty reasoning. It failed only when someone asked it to predict something new.</p>
+
+<p>That's a useful test to carry into any field: a model that explains what you already know is cheap. A model worth trusting is one that also tells you, correctly, what happens when you flip the wing upside down.</p>

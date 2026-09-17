@@ -1,0 +1,38 @@
+<p>A chemical plant can look like an incomprehensible maze of pipes, tanks, and towers from the outside. But almost every plant, regardless of what it makes, is built from a fairly small toolkit of repeating building blocks called <strong>unit operations</strong> — and once you can name them, the maze starts to make sense.</p>
+
+  <h2>The core idea: unit operations</h2>
+  <p>A unit operation is a single physical or chemical step that transforms material in a specific, well-understood way — heating it, separating it, reacting it, or moving it. Complex processes are really just unit operations chained together in sequence. Learn the common ones, and you can trace the rough logic of almost any plant flow diagram.</p>
+
+  <h2>Following a batch of raw material through a plant</h2>
+
+  <h3>1. Receiving and storage</h3>
+  <p>Raw material arrives, often by tanker truck, railcar, or pipeline, and is stored in tanks or silos sized to buffer against supply interruptions. Even at this stage, engineers are managing real hazards: some raw materials are flammable, corrosive, or reactive with moisture or air, which shapes how storage tanks are designed and vented.</p>
+
+  <h3>2. Reaction</h3>
+  <p>In a <strong>reactor</strong>, raw materials are combined under controlled conditions — temperature, pressure, and sometimes a catalyst — to convert them into new chemical products. Reactors are where the actual chemistry happens, and getting the conditions right is a balance: too little heat or pressure and the reaction is too slow to be economical; too much and you risk unwanted side reactions, equipment damage, or a runaway reaction that releases energy faster than it can be controlled.</p>
+
+  <h3>3. Separation</h3>
+  <p>A reactor rarely produces a pure product — it produces a mixture of the desired product, unreacted raw material, and byproducts. Separation steps pull these apart:</p>
+  <ul>
+    <li><strong>Distillation</strong> separates liquids by exploiting differences in boiling point, using towers where vapor rises and liquid falls, exchanging heat and mass as they pass each other.</li>
+    <li><strong>Filtration</strong> separates solids from liquids by passing the mixture through a physical barrier.</li>
+    <li><strong>Extraction</strong> uses a solvent that selectively dissolves one component of a mixture but not others.</li>
+  </ul>
+
+  <h3>4. Heat exchange</h3>
+  <p>Nearly every step above requires precise temperature control, and running a heater or cooler on every stream independently would waste enormous amounts of energy. <strong>Heat exchangers</strong> transfer heat between two streams without letting them physically mix — commonly, a hot product stream leaving a reactor is used to preheat the cold feed entering it, recovering energy that would otherwise be wasted.</p>
+
+  <div class="callout">
+    <strong>Why this matters economically:</strong> in many plants, energy costs rival raw material costs. Heat integration — reusing heat from one stream to warm or cool another — is often the single biggest lever for making a process economically viable.
+  </div>
+
+  <h3>5. Finishing and packaging</h3>
+  <p>The final product is brought to its sellable form: dried, pelletized, blended to spec, or packaged into drums, bags, or tanker trucks for shipment, with samples tested along the way to confirm the product meets quality specifications.</p>
+
+  <h2>Why safety is baked into the design, not added afterward</h2>
+  <p>Chemical processes often involve flammable materials, high pressures, high temperatures, or toxic intermediates, sometimes several at once. Because of this, chemical engineers design for failure from the start: relief valves that vent excess pressure before a vessel ruptures, redundant sensors and shutdown systems, and a formal practice called a <strong>Hazard and Operability study (HAZOP)</strong>, where a team systematically asks "what happens if this valve fails open? Closed? What if this pump loses power?" for every major piece of equipment before the plant is ever built.</p>
+
+  <blockquote>A well-designed chemical plant isn't one where nothing ever goes wrong — it's one where every plausible failure has already been anticipated and has a safe way to resolve.</blockquote>
+
+  <h2>Why this framework generalizes</h2>
+  <p>Thinking in unit operations — "what is this individual step actually doing to the material, and why is it needed before the next step?" — is a useful lens even outside chemical engineering. Any complex process, from a manufacturing line to a data pipeline, tends to break down into a similar sequence of storage, transformation, separation, and refinement steps once you look for them.</p>

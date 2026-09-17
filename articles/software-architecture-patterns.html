@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Architecture Patterns, at a Glance — Engineerspedia</title>
+<meta name="description" content="Monoliths, microservices, and everything between — a plain-language guide to picking a shape for your system.">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="../index.html" class="brand">
+      <span class="mark">Ep</span>
+      <span>Engineerspedia<span class="sub">Engineering, explained</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../articles.html" class="active">Articles</a></li>
+      <li><a href="../categories.html">Categories</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../contact.html" class="nav-cta">Suggest a topic</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="article-hero blueprint-bg">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Home</a> / <a href="../articles.html">Articles</a> / <a href="../categories.html#software">Software &amp; CS</a></div>
+    <span class="card-tag tag-software">Software &amp; CS</span>
+    <h1 style="margin-top:14px;">Software Architecture Patterns, at a Glance</h1>
+    <div class="article-meta">
+      <span><strong>Engineerspedia Staff</strong></span>
+      <span>Published August 5, 2026</span>
+      <span>11 min read</span>
+    </div>
+  </div>
+</section>
+
+<article class="article-body">
+
+  <p>Ask five software engineers whether an application should be a monolith or a set of microservices, and you'll likely get five confident, contradictory answers. That's because "software architecture" isn't really about finding the objectively correct structure — it's about picking trade-offs that match your team, your problem, and your stage of growth.</p>
+
+  <h2>The monolith: one codebase, one deployment</h2>
+  <p>A monolithic architecture keeps all of an application's functionality — the user interface, business logic, and data access — in a single codebase that's built and deployed as one unit. It's often treated as a dirty word, but it's usually the right starting point:</p>
+  <ul>
+    <li>Simpler to develop, test, and debug, since everything runs in one process with no network calls between components.</li>
+    <li>Easier to reason about for a small team, because there's one codebase to understand rather than a constellation of services.</li>
+    <li>The main downsides show up at scale: the whole application has to be redeployed for any change, and a bug in one part can potentially take down the whole system.</li>
+  </ul>
+
+  <h2>Microservices: many small, independent services</h2>
+  <p>A microservices architecture splits an application into a collection of small, independently deployable services, each typically owning a specific piece of business functionality (say, "payments" or "user authentication") and communicating over the network, often via HTTP or a message queue.</p>
+  <ul>
+    <li>Teams can develop, deploy, and scale each service independently — the payments team doesn't need to coordinate a release with the recommendations team.</li>
+    <li>A failure in one service can, if designed carefully, be contained instead of crashing everything.</li>
+    <li>The cost is real operational complexity: network calls are slower and less reliable than in-process function calls, debugging a request across a dozen services is harder, and you now need infrastructure for service discovery, monitoring, and deployment that a monolith never required.</li>
+  </ul>
+
+  <div class="callout">
+    <strong>A common trap:</strong> adopting microservices before a team is large enough to need them. Splitting a small team's codebase into a dozen services often just means everyone pays the operational overhead without getting the organizational benefit, since there's no team boundary the services actually correspond to.
+  </div>
+
+  <h2>Layered architecture: organizing by responsibility</h2>
+  <p>Independent of monolith-versus-microservices, most systems are also organized into layers — commonly presentation (UI), business logic, and data access — each only allowed to talk to the layer directly below it. This keeps concerns separated: the business logic doesn't need to know whether data is coming from a database or an API, and the UI doesn't need to know how business rules are implemented. This pattern shows up inside both monoliths and individual microservices.</p>
+
+  <h2>Event-driven architecture: reacting instead of asking</h2>
+  <p>Instead of one service directly calling another and waiting for a response, components emit <strong>events</strong> ("order placed," "payment failed") that other components subscribe to and react to independently. This decouples services from each other — the order service doesn't need to know which other services care that an order was placed, it just announces the fact. It's especially useful for workflows with many independent side effects (send a confirmation email, update inventory, notify a warehouse) but adds its own complexity: tracing what happened, and in what order, across a system reacting to events is harder than following a straight-line function call.</p>
+
+  <h2>How to actually choose</h2>
+  <p>A useful framing: architecture decisions are rarely about which pattern is "better" in the abstract — they're about which set of problems you'd rather have.</p>
+  <ol>
+    <li><strong>Team size and structure.</strong> Conway's Law observes that systems tend to mirror the communication structure of the organizations that build them — a single team usually builds a more monolithic system naturally, while independent teams tend toward independent services.</li>
+    <li><strong>Rate of change.</strong> Parts of a system that change often and independently benefit more from being separated out than parts that rarely change together.</li>
+    <li><strong>Operational maturity.</strong> Microservices assume you already have solid monitoring, deployment automation, and on-call practices. Adopting them before that infrastructure exists tends to multiply pain rather than reduce it.</li>
+  </ol>
+
+  <blockquote>Most successful systems don't start as microservices — they start as a well-organized monolith and get split apart later, at the specific seams where real organizational or scaling pressure shows up.</blockquote>
+
+  <h2>The takeaway</h2>
+  <p>There's no universally "correct" architecture — only trade-offs that fit a given team and problem better or worse at a given point in time. The skill worth building isn't memorizing pattern names; it's getting comfortable naming the trade-offs a given choice implies, and revisiting that choice as the situation changes.</p>
+
+  <hr class="article-divider">
+
+  <div class="tag-row">
+    <span class="tag-pill">software architecture</span>
+    <span class="tag-pill">microservices</span>
+    <span class="tag-pill">system design</span>
+    <span class="tag-pill">software engineering</span>
+  </div>
+</article>
+
+<section class="related-grid">
+  <div class="container">
+    <div class="section-head">
+      <h2 style="font-size:1.3rem;">Keep reading</h2>
+    </div>
+    <div class="card-grid">
+      <article class="card">
+        <div class="card-media media-software">💻</div>
+        <div class="card-body">
+          <span class="card-tag tag-software">Software &amp; CS</span>
+          <h3><a href="big-o-notation.html">Big-O Notation, Explained Without the Math Panic</a></h3>
+          <p>What "how does this scale?" really means.</p>
+          <div class="card-meta"><span>8 min read</span><a href="big-o-notation.html" class="read-link">Read →</a></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-media media-chemical">🧪</div>
+        <div class="card-body">
+          <span class="card-tag tag-chemical">Chemical</span>
+          <h3><a href="chemical-process-basics.html">How a Chemical Plant Actually Works</a></h3>
+          <p>Following a raw material from tanker truck to finished product.</p>
+          <div class="card-meta"><span>9 min read</span><a href="chemical-process-basics.html" class="read-link">Read →</a></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-media media-mechanical">⚙️</div>
+        <div class="card-body">
+          <span class="card-tag tag-mechanical">Mechanical</span>
+          <h3><a href="thermodynamics-intro.html">Thermodynamics for People in a Hurry</a></h3>
+          <p>The four laws that govern every engine, fridge, and power plant.</p>
+          <div class="card-meta"><span>10 min read</span><a href="thermodynamics-intro.html" class="read-link">Read →</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="../index.html" class="brand" style="margin-bottom:14px;">
+          <span class="mark">Ep</span>
+          <span>Engineerspedia</span>
+        </a>
+        <p style="max-width:280px; font-size:0.9rem;">A plain-language home for engineering explainers, spanning software to structural.</p>
+      </div>
+      <div>
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="../articles.html">All articles</a></li>
+          <li><a href="../categories.html">Categories</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Site</h5>
+        <ul>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Follow</h5>
+        <ul>
+          <li><a href="#">Twitter / X</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">RSS feed</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Engineerspedia. All rights reserved.</span>
+      <span>Built for people who like knowing how things work.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

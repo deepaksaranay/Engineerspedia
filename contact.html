@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Engineerspedia</title>
+<meta name="description" content="Suggest a topic, report a correction, or get in touch with Engineerspedia.">
+<meta name="theme-color" content="#12315f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2312315f'/%3E%3Ctext x='16' y='21' font-family='system-ui,sans-serif' font-size='13' font-weight='700' fill='white' text-anchor='middle'%3EEp%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="page">
+
+<div data-slot="header"></div>
+
+<main id="main">
+
+  <section class="article-hero blueprint-bg">
+    <div class="container">
+      <h1>Suggest a topic</h1>
+      <p style="max-width:38rem; margin:0;">Something you've always wanted explained properly? Spotted
+        an error? This is the place.</p>
+    </div>
+  </section>
+
+  <div class="prose">
+    <!-- Netlify picks this form up automatically on deploy (data-netlify).
+         Submissions land in Site settings → Forms. Delete those two attributes
+         if you'd rather wire it to your own endpoint. -->
+    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="contact">
+      <p class="visually-hidden">
+        <label>Leave this empty: <input name="bot-field"></label>
+      </p>
+
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+
+      <div class="field">
+        <label for="topic">Discipline</label>
+        <select id="topic" name="topic" data-slot="category-select"></select>
+      </div>
+
+      <div class="field">
+        <label for="message">What should we explain?</label>
+        <textarea id="message" name="message" required
+          placeholder="The more specific the better — “why do jet engines have so many fan stages?” beats “something about planes”."></textarea>
+      </div>
+
+      <button class="btn-solid" type="submit">Send it</button>
+    </form>
+
+    <h2>Corrections</h2>
+    <p>If an article gets something wrong, say which article and what's wrong with it — ideally with
+      a source. Corrections get priority over everything else in the queue.</p>
+
+    <h2>Reusing our work</h2>
+    <p>Quoting a paragraph or two with a link back is always fine. For translations, classroom use or
+      republishing a full article, send a note first.</p>
+  </div>
+
+  <section class="tight">
+    <div class="container" data-slot="subscribe"></div>
+  </section>
+
+</main>
+
+<div data-slot="footer"></div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+{
+  "site": {
+    "name": "Engineerspedia",
+    "tagline": "Engineering, explained",
+    "description": "Engineering knowledge, without the jargon. Plain-language explainers spanning software, mechanical, civil, electrical, chemical and aerospace engineering.",
+    "url": "https://engineerspedia.netlify.app",
+    "prettyUrls": false,
+    "defaultAuthor": "Engineerspedia Staff",
+    "footerBlurb": "A plain-language home for engineering explainers, spanning software to structural.",
+    "footerNote": "Built for people who like knowing how things work.",
+    "social": [
+      { "label": "Twitter / X", "href": "#" },
+      { "label": "LinkedIn", "href": "#" },
+      { "label": "YouTube", "href": "#" },
+      { "label": "RSS feed", "href": "/feed.xml" }
+    ]
+  },
+
+  "nav": [
+    { "label": "Home", "href": "/" },
+    { "label": "Articles", "href": "/articles.html" },
+    { "label": "Categories", "href": "/categories.html" },
+    { "label": "Tools", "href": "/mechanical-toolkit.html" },
+    { "label": "About", "href": "/about.html" },
+    { "label": "Contact", "href": "/contact.html" }
+  ],
+  "navCta": { "label": "Suggest a topic", "href": "/contact.html" },
+
+  "categories": [
+    {
+      "id": "software",
+      "name": "Software & CS",
+      "emoji": "💻",
+      "color": "#4f46e5",
+      "blurb": "Algorithms, architecture, and the trade-offs behind the systems you use every day."
+    },
+    {
+      "id": "mechanical",
+      "name": "Mechanical",
+      "emoji": "⚙️",
+      "color": "#b45309",
+      "blurb": "Energy, motion, heat and the machines that move the physical world."
+    },
+    {
+      "id": "civil",
+      "name": "Civil & Structural",
+      "emoji": "🌉",
+      "color": "#0f766e",
+      "blurb": "How buildings, bridges and foundations carry the weight we put on them."
+    },
+    {
+      "id": "electrical",
+      "name": "Electrical",
+      "emoji": "⚡",
+      "color": "#ca8a04",
+      "blurb": "Voltage, current and the invisible rules governing every circuit."
+    },
+    {
+      "id": "chemical",
+      "name": "Chemical",
+      "emoji": "🧪",
+      "color": "#9333ea",
+      "blurb": "Reactions, separations and the unit operations inside every process plant."
+    },
+    {
+      "id": "aerospace",
+      "name": "Aerospace",
+      "emoji": "✈️",
+      "color": "#0284c7",
+      "blurb": "Lift, thrust and the physics that keeps several hundred tonnes in the air."
+    }
+  ],
+
+  "articles": [
+    {
+      "slug": "how-wings-generate-lift",
+      "title": "How Wings Actually Generate Lift",
+      "dek": "The popular explanation is wrong. Here's what really holds an aircraft up.",
+      "category": "aerospace",
+      "emoji": "✈️",
+      "date": "2026-09-12",
+      "readMins": 10,
+      "featured": true,
+      "description": "Why the 'equal transit time' explanation of lift is wrong, and how circulation, angle of attack and Newton's third law actually keep an aircraft in the air.",
+      "tags": ["aerospace engineering", "aerodynamics", "lift", "fundamentals"]
+    },
+    {
+      "slug": "big-o-notation",
+      "title": "Big-O Notation, Explained Without the Math Panic",
+      "dek": "What \"how does this scale?\" really means, and how to eyeball an algorithm's complexity.",
+      "category": "software",
+      "emoji": "💻",
+      "date": "2026-08-12",
+      "readMins": 8,
+      "featured": true,
+      "description": "A plain-language walkthrough of Big-O notation: what it measures, why it matters, and how to eyeball an algorithm's complexity.",
+      "tags": ["algorithms", "computer science", "performance", "software engineering"]
+    },
+    {
+      "slug": "software-architecture-patterns",
+      "title": "Software Architecture Patterns, at a Glance",
+      "dek": "Monoliths, microservices, and everything between — how to pick a shape for your system.",
+      "category": "software",
+      "emoji": "🧱",
+      "date": "2026-08-05",
+      "readMins": 11,
+      "featured": true,
+      "description": "Monoliths, microservices, and everything between — a plain-language guide to picking a shape for your system.",
+      "tags": ["software architecture", "microservices", "system design", "software engineering"]
+    },
+    {
+      "slug": "load-bearing-structures",
+      "title": "Why Buildings Don't Fall Down: Load Paths 101",
+      "dek": "A tour of how loads travel from a roof to the ground, and what \"load-bearing\" actually means.",
+      "category": "civil",
+      "emoji": "🌉",
+      "date": "2026-07-30",
+      "readMins": 9,
+      "description": "A plain-language tour of how structural loads travel from a roof to the ground, and what 'load-bearing' really means.",
+      "tags": ["structural engineering", "civil engineering", "construction", "load paths"]
+    },
+    {
+      "slug": "circuit-design-basics",
+      "title": "Circuit Design Basics: Volts, Amps, and Ohm's Law",
+      "dek": "The three numbers every circuit boils down to, and how to reason about them with confidence.",
+      "category": "electrical",
+      "emoji": "⚡",
+      "date": "2026-07-18",
+      "readMins": 7,
+      "description": "The three numbers every circuit boils down to, and how to reason about voltage, current, and resistance with confidence.",
+      "tags": ["electrical engineering", "circuits", "ohm's law", "fundamentals"]
+    },
+    {
+      "slug": "thermodynamics-intro",
+      "title": "Thermodynamics for People in a Hurry",
+      "dek": "The four laws that govern every engine, fridge, and power plant.",
+      "category": "mechanical",
+      "emoji": "⚙️",
+      "date": "2026-07-05",
+      "readMins": 10,
+      "description": "The four laws of thermodynamics, explained with everyday examples instead of textbook notation.",
+      "tags": ["thermodynamics", "mechanical engineering", "energy", "fundamentals"]
+    },
+    {
+      "slug": "chemical-process-basics",
+      "title": "How a Chemical Plant Actually Works",
+      "dek": "Following a raw material from tanker truck to finished product, one unit operation at a time.",
+      "category": "chemical",
+      "emoji": "🧪",
+      "date": "2026-06-22",
+      "readMins": 9,
+      "description": "Following a raw material from tanker truck to finished product, one unit operation at a time.",
+      "tags": ["chemical engineering", "process design", "unit operations", "safety"]
+    }
+  ]
+}

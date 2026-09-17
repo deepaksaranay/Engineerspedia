@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mechanical Engineering Toolkit — Engineerspedia</title>
+<meta name="description" content="Four free interactive mechanical engineering calculators: stress & strain, beam deflection, gear ratio & torque, and power/torque/RPM.">
+<meta name="theme-color" content="#12315f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2312315f'/%3E%3Ctext x='16' y='21' font-family='system-ui,sans-serif' font-size='13' font-weight='700' fill='white' text-anchor='middle'%3EEp%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  /* Page-specific additions only — everything else reuses assets/style.css */
+  .toolkit-main { --cat: #b45309; } /* Mechanical category colour, for consistency with categories.html */
+
+  .tk-tabs {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 0 0 26px;
+  }
+  .tk-tab {
+    font: inherit; cursor: pointer; border: 1px solid var(--line-2); background: var(--surface);
+    color: var(--ink-2); padding: 9px 16px; border-radius: 999px; font-size: .88rem; font-weight: 600;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+  }
+  .tk-tab:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+  .tk-tab[aria-selected="true"] { background: var(--cat); border-color: transparent; color: #fff; }
+
+  .tk-panel { display: none; }
+  .tk-panel.active { display: block; }
+
+  .tk-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; margin-bottom: 4px;
+  }
+  .tk-unit-row { display: flex; gap: 8px; }
+  .tk-unit-row input { flex: 1; }
+  .tk-unit-row select { max-width: 100px; flex: 0 0 auto; }
+
+  .tk-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 18px 0 0; }
+  .tk-btn-ghost {
+    font: inherit; cursor: pointer; background: transparent; color: var(--ink-2);
+    border: 1px solid var(--line-2); padding: 10px 18px; border-radius: 10px; font-size: .9rem; font-weight: 600;
+  }
+  .tk-btn-ghost:hover { background: var(--surface-2); }
+
+  .tk-result { margin-top: 22px; }
+  .tk-result.hidden { display: none; }
+  .tk-result .headline { font-size: 1.6rem; font-weight: 800; color: var(--cat); margin: 0 0 2px; }
+  .tk-result .sub { font-size: .85rem; color: var(--muted); margin: 0; }
+  .tk-result .breakdown {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line-2);
+    font-size: .86rem; color: var(--ink-2);
+  }
+  .tk-result .breakdown div { display: flex; justify-content: space-between; padding: 3px 0; }
+  .tk-badge {
+    display: inline-block; font-size: .68rem; font-weight: 700; padding: 2px 9px; border-radius: 6px;
+    margin-left: 8px; vertical-align: middle; background: color-mix(in srgb, var(--cat) 16%, transparent);
+    color: color-mix(in srgb, var(--cat) 82%, var(--ink) 18%);
+  }
+
+  .tk-formula summary { cursor: pointer; font-weight: 600; color: var(--accent); font-size: .88rem; }
+  .tk-formula .box {
+    margin-top: 10px; padding: 14px 16px; background: var(--code-bg); border: 1px solid var(--line);
+    border-radius: var(--radius-sm); font-family: var(--mono); font-size: .85rem; overflow-x: auto; white-space: pre;
+  }
+
+  .tk-card-title { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+</style>
+</head>
+<body data-page="page">
+
+<div data-slot="header"></div>
+
+<main id="main" class="toolkit-main">
+
+  <section class="hero blueprint-bg">
+    <div class="container">
+      <span class="eyebrow">⚙️ Mechanical · Interactive Tool</span>
+      <h1>Mechanical Engineering Toolkit</h1>
+      <p class="lede">Four quick calculators for everyday mechanical work — stress &amp; strain, beam
+        deflection, gear ratio &amp; torque, and power/torque/RPM. Enter your values; results update instantly,
+        nothing leaves your browser.</p>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="container" style="max-width:var(--readw);">
+
+      <div class="tk-tabs" role="tablist" aria-label="Choose a calculator">
+        <button class="tk-tab" role="tab" aria-selected="true" data-tab="stress">Stress &amp; Strain</button>
+        <button class="tk-tab" role="tab" aria-selected="false" data-tab="beam">Beam Deflection</button>
+        <button class="tk-tab" role="tab" aria-selected="false" data-tab="gear">Gear Ratio &amp; Torque</button>
+        <button class="tk-tab" role="tab" aria-selected="false" data-tab="power">Power · Torque · RPM</button>
+      </div>
+
+      <!-- STRESS & STRAIN -->
+      <div class="tk-panel active" id="tk-panel-stress">
+        <div class="card" style="padding:24px;">
+          <div class="tk-card-title"><h2 style="margin:0;">Stress &amp; Strain</h2></div>
+          <p style="color:var(--muted); font-size:.92rem; margin:6px 0 20px;">Axial stress from force and
+            cross-sectional area — plus strain and Young's modulus if you supply the elongation.</p>
+
+          <div class="tk-grid">
+            <div class="field">
+              <label for="s-force">Applied force (F)</label>
+              <div class="tk-unit-row">
+                <input type="number" id="s-force" value="5000" step="any">
+                <select id="s-force-unit"><option value="1">N</option><option value="1000">kN</option><option value="4.44822">lbf</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="s-area">Cross-section area (A)</label>
+              <div class="tk-unit-row">
+                <input type="number" id="s-area" value="50" step="any">
+                <select id="s-area-unit"><option value="1e-6">mm²</option><option value="1e-4">cm²</option><option value="1">m²</option><option value="6.4516e-4">in²</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="s-length">Original length (L₀) — optional</label>
+              <div class="tk-unit-row">
+                <input type="number" id="s-length" value="200" step="any">
+                <select id="s-length-unit"><option value="0.001">mm</option><option value="1">m</option><option value="0.0254">in</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="s-delta">Elongation (ΔL) — optional</label>
+              <div class="tk-unit-row">
+                <input type="number" id="s-delta" value="0.12" step="any">
+                <select id="s-delta-unit"><option value="0.001">mm</option><option value="1">m</option><option value="0.0254">in</option></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="tk-actions">
+            <button class="btn-solid" onclick="tkCalcStress()">Calculate</button>
+            <button class="tk-btn-ghost" onclick="tkReset('tk-panel-stress')">Reset</button>
+          </div>
+
+          <div class="tk-result hidden" id="s-result">
+            <p class="headline" id="s-headline">—</p>
+            <p class="sub" id="s-sub"></p>
+            <div class="breakdown" id="s-breakdown"></div>
+          </div>
+
+          <details class="tk-formula">
+            <summary>Formulas used</summary>
+            <div class="box">σ = F / A
+ε = ΔL / L₀
+E = σ / ε   (Young's modulus, if ΔL and L₀ given)</div>
+          </details>
+        </div>
+      </div>
+
+      <!-- BEAM DEFLECTION -->
+      <div class="tk-panel" id="tk-panel-beam">
+        <div class="card" style="padding:24px;">
+          <div class="tk-card-title"><h2 style="margin:0;">Beam Deflection</h2></div>
+          <p style="color:var(--muted); font-size:.92rem; margin:6px 0 20px;">Maximum deflection and bending
+            stress for a simply supported beam with a central point load.</p>
+
+          <div class="tk-grid">
+            <div class="field">
+              <label for="b-load">Point load (P), at midspan</label>
+              <div class="tk-unit-row">
+                <input type="number" id="b-load" value="2000" step="any">
+                <select id="b-load-unit"><option value="1">N</option><option value="1000">kN</option><option value="4.44822">lbf</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="b-length">Span length (L)</label>
+              <div class="tk-unit-row">
+                <input type="number" id="b-length" value="2" step="any">
+                <select id="b-length-unit"><option value="1">m</option><option value="0.001">mm</option><option value="0.3048">ft</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="b-e">Young's modulus (E)</label>
+              <div class="tk-unit-row">
+                <input type="number" id="b-e" value="200" step="any">
+                <select id="b-e-unit"><option value="1e9">GPa</option><option value="1e6">MPa</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="b-i">Moment of inertia (I)</label>
+              <div class="tk-unit-row">
+                <input type="number" id="b-i" value="8" step="any">
+                <select id="b-i-unit"><option value="1e-8">cm⁴</option><option value="1e-12">mm⁴</option><option value="1">m⁴</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="b-c">Distance to outer fibre (c)</label>
+              <div class="tk-unit-row">
+                <input type="number" id="b-c" value="50" step="any">
+                <select id="b-c-unit"><option value="0.001">mm</option><option value="0.01">cm</option><option value="1">m</option></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="tk-actions">
+            <button class="btn-solid" onclick="tkCalcBeam()">Calculate</button>
+            <button class="tk-btn-ghost" onclick="tkReset('tk-panel-beam')">Reset</button>
+          </div>
+
+          <div class="tk-result hidden" id="b-result">
+            <p class="headline" id="b-headline">—</p>
+            <p class="sub" id="b-sub"></p>
+            <div class="breakdown" id="b-breakdown"></div>
+          </div>
+
+          <details class="tk-formula">
+            <summary>Formulas used</summary>
+            <div class="box">δ_max = P·L³ / (48·E·I)   (simply supported, central point load)
+M_max = P·L / 4
+σ = M_max·c / I</div>
+          </details>
+        </div>
+      </div>
+
+      <!-- GEAR RATIO & TORQUE -->
+      <div class="tk-panel" id="tk-panel-gear">
+        <div class="card" style="padding:24px;">
+          <div class="tk-card-title"><h2 style="margin:0;">Gear Ratio &amp; Torque</h2></div>
+          <p style="color:var(--muted); font-size:.92rem; margin:6px 0 20px;">Output speed and torque for a
+            simple two-gear (or belt/chain) drive, from tooth counts.</p>
+
+          <div class="tk-grid">
+            <div class="field">
+              <label for="g-drv">Driver teeth (N₁)</label>
+              <input type="number" id="g-drv" value="20" step="any">
+            </div>
+            <div class="field">
+              <label for="g-drn">Driven teeth (N₂)</label>
+              <input type="number" id="g-drn" value="60" step="any">
+            </div>
+            <div class="field">
+              <label for="g-rpm">Input speed (RPM)</label>
+              <input type="number" id="g-rpm" value="1500" step="any">
+            </div>
+            <div class="field">
+              <label for="g-torque">Input torque</label>
+              <div class="tk-unit-row">
+                <input type="number" id="g-torque" value="15" step="any">
+                <select id="g-torque-unit"><option value="1">N·m</option><option value="1.3558">lb·ft</option></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="tk-actions">
+            <button class="btn-solid" onclick="tkCalcGear()">Calculate</button>
+            <button class="tk-btn-ghost" onclick="tkReset('tk-panel-gear')">Reset</button>
+          </div>
+
+          <div class="tk-result hidden" id="g-result">
+            <p class="headline" id="g-headline">—</p>
+            <p class="sub" id="g-sub"></p>
+            <div class="breakdown" id="g-breakdown"></div>
+          </div>
+
+          <details class="tk-formula">
+            <summary>Formulas used</summary>
+            <div class="box">Gear ratio (GR) = N₂ / N₁   (driven / driver)
+Output RPM = Input RPM / GR
+Output torque = Input torque × GR   (ideal, 100% efficiency)</div>
+          </details>
+        </div>
+      </div>
+
+      <!-- POWER / TORQUE / RPM -->
+      <div class="tk-panel" id="tk-panel-power">
+        <div class="card" style="padding:24px;">
+          <div class="tk-card-title"><h2 style="margin:0;">Power · Torque · RPM</h2></div>
+          <p style="color:var(--muted); font-size:.92rem; margin:6px 0 20px;">Solve for whichever value
+            you're missing — provide any two of Power, Torque and RPM.</p>
+
+          <div class="tk-grid">
+            <div class="field">
+              <label for="p-solve">Solve for</label>
+              <select id="p-solve" onchange="tkTogglePowerMode()">
+                <option value="power">Power</option>
+                <option value="torque">Torque</option>
+                <option value="rpm">RPM</option>
+              </select>
+            </div>
+            <div class="field" id="p-power-field">
+              <label for="p-power">Power</label>
+              <div class="tk-unit-row">
+                <input type="number" id="p-power" value="10" step="any">
+                <select id="p-power-unit"><option value="1000">kW</option><option value="1">W</option><option value="745.7">hp</option></select>
+              </div>
+            </div>
+            <div class="field" id="p-torque-field">
+              <label for="p-torque">Torque</label>
+              <div class="tk-unit-row">
+                <input type="number" id="p-torque" value="63.7" step="any">
+                <select id="p-torque-unit"><option value="1">N·m</option><option value="1.3558">lb·ft</option></select>
+              </div>
+            </div>
+            <div class="field" id="p-rpm-field">
+              <label for="p-rpm">RPM</label>
+              <input type="number" id="p-rpm" value="1500" step="any">
+            </div>
+          </div>
+
+          <div class="tk-actions">
+            <button class="btn-solid" onclick="tkCalcPower()">Calculate</button>
+            <button class="tk-btn-ghost" onclick="tkReset('tk-panel-power')">Reset</button>
+          </div>
+
+          <div class="tk-result hidden" id="p-result">
+            <p class="headline" id="p-headline">—</p>
+            <p class="sub" id="p-sub"></p>
+          </div>
+
+          <details class="tk-formula">
+            <summary>Formulas used</summary>
+            <div class="box">P (W) = T (N·m) × ω (rad/s)
+ω = RPM × 2π / 60
+⇒ P = T × RPM × 2π / 60</div>
+          </details>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:28px;">
+        <strong>Worth knowing:</strong> these are ideal, textbook formulas (no safety factors, no
+        efficiency losses). Use them to sanity-check a design or homework, not as a substitute for
+        proper engineering analysis on anything load-bearing.
+      </div>
+
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="container" data-slot="subscribe"></div>
+  </section>
+
+</main>
+
+<div data-slot="footer"></div>
+
+<script src="assets/app.js"></script>
+<script>
+// ---- Tabs ----
+document.querySelectorAll('.tk-tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tk-tab').forEach(b=>b.setAttribute('aria-selected','false'));
+    document.querySelectorAll('.tk-panel').forEach(p=>p.classList.remove('active'));
+    btn.setAttribute('aria-selected','true');
+    document.getElementById('tk-panel-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+function tkFmt(n, digits){
+  if(!isFinite(n)) return '—';
+  if(Math.abs(n) >= 1000) return n.toLocaleString(undefined,{maximumFractionDigits:digits ?? 1});
+  return Number(n.toFixed(digits ?? 3)).toString();
+}
+function tkShow(prefix){ document.getElementById(prefix+'-result').classList.remove('hidden'); }
+function tkReset(panelId){
+  document.getElementById(panelId).querySelectorAll('input').forEach(i=>{ if(i.defaultValue) i.value=i.defaultValue; });
+  document.getElementById(panelId).querySelector('.tk-result')?.classList.add('hidden');
+}
+
+// ---- Stress & Strain ----
+function tkCalcStress(){
+  const F = parseFloat(document.getElementById('s-force').value) * parseFloat(document.getElementById('s-force-unit').value);
+  const A = parseFloat(document.getElementById('s-area').value) * parseFloat(document.getElementById('s-area-unit').value);
+  const L0 = parseFloat(document.getElementById('s-length').value) * parseFloat(document.getElementById('s-length-unit').value);
+  const dL = parseFloat(document.getElementById('s-delta').value) * parseFloat(document.getElementById('s-delta-unit').value);
+
+  if(!(F>0) || !(A>0)){ alert('Enter a positive force and area.'); return; }
+
+  const stressPa = F / A;
+  const stressMPa = stressPa / 1e6;
+  document.getElementById('s-headline').innerHTML = tkFmt(stressMPa,2) + ' MPa <span class="tk-badge">σ = F/A</span>';
+  document.getElementById('s-sub').textContent = 'Axial stress (' + tkFmt(stressPa,0) + ' Pa)';
+
+  let breakdown = '<div><span>Force (F)</span><span>'+tkFmt(F,1)+' N</span></div>' +
+                   '<div><span>Area (A)</span><span>'+tkFmt(A*1e6,2)+' mm²</span></div>';
+
+  if(L0>0 && dL>0){
+    const strain = dL / L0;
+    const E = stressPa / strain / 1e9;
+    breakdown += '<div><span>Strain (ε)</span><span>'+ (strain).toExponential(3) +'</span></div>' +
+                 '<div><span>Young\'s modulus (E)</span><span>'+tkFmt(E,2)+' GPa</span></div>';
+  }
+  document.getElementById('s-breakdown').innerHTML = breakdown;
+  tkShow('s');
+}
+
+// ---- Beam Deflection ----
+function tkCalcBeam(){
+  const P = parseFloat(document.getElementById('b-load').value) * parseFloat(document.getElementById('b-load-unit').value);
+  const L = parseFloat(document.getElementById('b-length').value) * parseFloat(document.getElementById('b-length-unit').value);
+  const E = parseFloat(document.getElementById('b-e').value) * parseFloat(document.getElementById('b-e-unit').value);
+  const I = parseFloat(document.getElementById('b-i').value) * parseFloat(document.getElementById('b-i-unit').value);
+  const c = parseFloat(document.getElementById('b-c').value) * parseFloat(document.getElementById('b-c-unit').value);
+
+  if(!(P>0)||!(L>0)||!(E>0)||!(I>0)){ alert('Enter positive load, length, E and I.'); return; }
+
+  const deflection = (P * Math.pow(L,3)) / (48 * E * I);
+  const Mmax = (P * L) / 4;
+  const stress = (c>0 && I>0) ? (Mmax * c / I) / 1e6 : null;
+
+  document.getElementById('b-headline').innerHTML = tkFmt(deflection*1000,3) + ' mm <span class="tk-badge">max deflection</span>';
+  document.getElementById('b-sub').textContent = 'Simply supported beam, central point load';
+
+  let breakdown = '<div><span>Max bending moment (M_max)</span><span>'+tkFmt(Mmax,1)+' N·m</span></div>';
+  if(stress!==null) breakdown += '<div><span>Max bending stress (σ)</span><span>'+tkFmt(stress,2)+' MPa</span></div>';
+  document.getElementById('b-breakdown').innerHTML = breakdown;
+  tkShow('b');
+}
+
+// ---- Gear Ratio & Torque ----
+function tkCalcGear(){
+  const drv = parseFloat(document.getElementById('g-drv').value);
+  const drn = parseFloat(document.getElementById('g-drn').value);
+  const rpmIn = parseFloat(document.getElementById('g-rpm').value);
+  const tIn = parseFloat(document.getElementById('g-torque').value) * parseFloat(document.getElementById('g-torque-unit').value);
+
+  if(!(drv>0)||!(drn>0)){ alert('Enter positive values for both gears.'); return; }
+
+  const gr = drn / drv;
+  const rpmOut = rpmIn / gr;
+  const tOut = tIn * gr;
+
+  document.getElementById('g-headline').innerHTML = tkFmt(gr,3) + ' : 1 <span class="tk-badge">'+(gr>1?'speed reduction':'speed increase')+'</span>';
+  document.getElementById('g-sub').textContent = 'Gear ratio (driven / driver)';
+
+  let breakdown = '';
+  if(rpmIn>0) breakdown += '<div><span>Output speed</span><span>'+tkFmt(rpmOut,1)+' RPM</span></div>';
+  if(tIn>0) breakdown += '<div><span>Output torque</span><span>'+tkFmt(tOut,2)+' N·m</span></div>';
+  document.getElementById('g-breakdown').innerHTML = breakdown;
+  tkShow('g');
+}
+
+// ---- Power / Torque / RPM ----
+function tkTogglePowerMode(){
+  const mode = document.getElementById('p-solve').value;
+  document.getElementById('p-power-field').style.display = mode==='power' ? 'none' : '';
+  document.getElementById('p-torque-field').style.display = mode==='torque' ? 'none' : '';
+  document.getElementById('p-rpm-field').style.display = mode==='rpm' ? 'none' : '';
+}
+function tkCalcPower(){
+  const mode = document.getElementById('p-solve').value;
+  const rpm = parseFloat(document.getElementById('p-rpm').value);
+  const T = parseFloat(document.getElementById('p-torque').value) * parseFloat(document.getElementById('p-torque-unit').value);
+  const P = parseFloat(document.getElementById('p-power').value) * parseFloat(document.getElementById('p-power-unit').value);
+
+  const omega = rpm * 2 * Math.PI / 60;
+
+  if(mode==='power'){
+    if(!(T>0)||!(rpm>0)){ alert('Enter torque and RPM.'); return; }
+    const result = T * omega;
+    document.getElementById('p-headline').innerHTML = tkFmt(result/1000,3) + ' kW <span class="tk-badge">= '+tkFmt(result/745.7,3)+' hp</span>';
+    document.getElementById('p-sub').textContent = 'Power = Torque × ω';
+  } else if(mode==='torque'){
+    if(!(P>0)||!(rpm>0)){ alert('Enter power and RPM.'); return; }
+    const result = P / omega;
+    document.getElementById('p-headline').innerHTML = tkFmt(result,3) + ' N·m <span class="tk-badge">= '+tkFmt(result/1.3558,3)+' lb·ft</span>';
+    document.getElementById('p-sub').textContent = 'Torque = Power / ω';
+  } else {
+    if(!(P>0)||!(T>0)){ alert('Enter power and torque.'); return; }
+    const result = (P / T) * 60 / (2*Math.PI);
+    document.getElementById('p-headline').innerHTML = tkFmt(result,1) + ' RPM';
+    document.getElementById('p-sub').textContent = 'RPM = Power / Torque, converted from ω';
+  }
+  tkShow('p');
+}
+tkTogglePowerMode();
+</script>
+
+</body>
+</html>

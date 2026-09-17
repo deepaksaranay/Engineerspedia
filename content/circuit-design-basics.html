@@ -1,0 +1,38 @@
+<p>Electrical engineering has a reputation for being invisible and therefore mysterious — you can't watch electricity move the way you can watch a gear turn. But almost everything in basic circuit design comes back to three quantities and one equation that relates them.</p>
+
+  <h2>The three quantities</h2>
+  <p>A useful mental model: think of a circuit like water flowing through pipes.</p>
+  <ul>
+    <li><strong>Voltage (V)</strong>, measured in volts, is the electrical "pressure" pushing current through a circuit — like water pressure pushing water through a pipe. It's always measured as a difference between two points.</li>
+    <li><strong>Current (I)</strong>, measured in amps, is the actual flow — how much charge passes a point per second, like the flow rate of water through the pipe.</li>
+    <li><strong>Resistance (R)</strong>, measured in ohms, is whatever opposes that flow — like a narrower pipe or a filter that makes water push harder to get through.</li>
+  </ul>
+
+  <h2>Ohm's Law: the equation that ties them together</h2>
+  <p>Ohm's Law states:</p>
+  <pre><code>V = I × R</code></pre>
+  <p>Voltage equals current times resistance. Rearranged, this also gives you <code>I = V / R</code> (current equals voltage divided by resistance) and <code>R = V / I</code>. Once you know any two of the three values, you can always solve for the third.</p>
+
+  <div class="callout">
+    <strong>Worked example:</strong> a 9-volt battery is connected to a 3-ohm resistor. How much current flows? <code>I = V / R = 9 / 3 = 3 amps.</code> That's the whole calculation — no calculus required.
+  </div>
+
+  <h2>Series vs. parallel circuits</h2>
+  <p>Once a circuit has more than one component, how they're arranged changes the math:</p>
+  <ul>
+    <li><strong>Series circuits</strong> connect components end to end, so current has only one path to follow. The same current flows through every component, and resistances simply add up: <code>R_total = R1 + R2 + R3...</code>. If one component fails open (like an old-style string of Christmas lights), the whole circuit stops working.</li>
+    <li><strong>Parallel circuits</strong> connect components side by side across the same two points, giving current multiple paths. Voltage is the same across each branch, but total resistance actually goes <em>down</em> as you add more parallel paths, following <code>1/R_total = 1/R1 + 1/R2 + 1/R3...</code>. This is how household wiring works — turning off one lamp doesn't kill the outlet next to it.</li>
+  </ul>
+
+  <h2>Power: what actually costs you energy</h2>
+  <p>Power, measured in watts, describes how fast energy is being used or delivered:</p>
+  <pre><code>P = V × I</code></pre>
+  <p>Combine this with Ohm's Law and you get two more useful forms: <code>P = I² × R</code> and <code>P = V² / R</code>. This is why a wire with too much resistance carrying a lot of current can overheat and become a fire hazard — the <code>I²R</code> term means power dissipated as heat rises sharply as current increases, not just proportionally.</p>
+
+  <h2>Why engineers reach for these numbers constantly</h2>
+  <p>These relationships aren't just classroom exercises — they're the first check an electrical engineer runs when sizing a wire, choosing a fuse rating, or figuring out why a component is running hot. Before reaching for simulation software, a rough hand calculation using Ohm's Law and the power equations tells you whether a design is in a sane range at all.</p>
+
+  <blockquote>Most electrical intuition, at the introductory level, is really just getting comfortable rearranging V = I × R until it becomes automatic.</blockquote>
+
+  <h2>Where to go from here</h2>
+  <p>From this foundation, the next concepts worth learning are capacitors and inductors (components that store energy rather than just resisting current), AC versus DC circuits, and Kirchhoff's laws for analyzing more complex networks with multiple loops. But nearly all of it still traces back to the same three quantities introduced here.</p>
